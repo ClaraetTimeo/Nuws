@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuws — Actualités & Médias</title>
   
-  <!-- Polices système & Lucide Icons -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
@@ -27,7 +27,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -39,7 +39,7 @@
       flex-direction: column;
     }
 
-    /* Bandeau supérieur Apple Glass (Frosted Black) */
+    /* Bandeau Noir Effet Verre */
     .glass-header {
       position: sticky;
       top: 0;
@@ -59,17 +59,11 @@
       justify-content: space-between;
     }
 
-    /* Logo Nuws exact (SVG vectoriel fidèle à l'image) */
     .brand-logo {
       display: flex;
       align-items: center;
       text-decoration: none;
       color: white;
-      transition: opacity 0.2s;
-    }
-
-    .brand-logo:hover {
-      opacity: 0.85;
     }
 
     .brand-logo svg {
@@ -77,7 +71,6 @@
       width: auto;
     }
 
-    /* Actions utilisateur */
     .nav-actions {
       display: flex;
       align-items: center;
@@ -91,7 +84,7 @@
       padding: 0.55rem 1.1rem;
       border-radius: 980px;
       font-size: 0.875rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       display: inline-flex;
@@ -102,6 +95,15 @@
     .btn-apple:hover {
       transform: scale(1.02);
       background: #e8e8ed;
+    }
+
+    .btn-publish {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-publish:hover {
+      background: var(--primary-hover);
     }
 
     .user-pill {
@@ -126,7 +128,6 @@
 
     .btn-link-dark:hover { color: white; }
 
-    /* Layout principal */
     main {
       max-width: 1140px;
       margin: 2rem auto 4rem;
@@ -135,14 +136,14 @@
       flex: 1;
     }
 
-    /* Apple TV Hero Carousel */
+    /* Carrousel Hero Apple TV */
     .hero-carousel-section {
       position: relative;
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,0.2);
       background: #000;
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
       height: 420px;
     }
 
@@ -191,14 +192,13 @@
       margin-bottom: 0.8rem;
     }
 
-    .slide-badge.youtube { background: rgba(255, 0, 0, 0.8); }
+    .slide-badge.youtube { background: #ff0000; }
 
     .slide-title {
       font-size: 2rem;
       font-weight: 700;
       line-height: 1.2;
       margin-bottom: 0.8rem;
-      letter-spacing: -0.01em;
     }
 
     .slide-desc {
@@ -208,23 +208,6 @@
       line-height: 1.4;
     }
 
-    .slide-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #ffffff;
-      color: #000;
-      padding: 0.75rem 1.5rem;
-      border-radius: 980px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: transform 0.2s;
-    }
-
-    .slide-btn:hover { transform: scale(1.03); }
-
-    /* Pagination Apple TV Dots */
     .carousel-dots {
       position: absolute;
       bottom: 1.2rem;
@@ -249,9 +232,9 @@
       border-radius: 10px;
     }
 
-    /* Barre de Recherche Intelligente (Fuzzy Search) */
+    /* Barre de Recherche Intelligente */
     .search-section {
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
     .smart-search-wrapper {
@@ -285,25 +268,41 @@
       box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
     }
 
-    .search-hint {
-      text-align: center;
-      font-size: 0.825rem;
-      color: var(--text-muted);
-      margin-top: 0.6rem;
+    /* Pilules de Catégories */
+    .categories-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
     }
 
-    /* Grille de Contenu */
+    .cat-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 0.5rem 1.1rem;
+      border-radius: 980px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cat-pill:hover, .cat-pill.active {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    /* Grille de contenu */
     .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
       margin-bottom: 1.5rem;
     }
 
     .section-header h2 {
       font-size: 1.5rem;
       font-weight: 700;
-      letter-spacing: -0.01em;
     }
 
     .content-grid {
@@ -318,21 +317,37 @@
       overflow: hidden;
       border: 1px solid var(--border);
       box-shadow: var(--shadow-apple);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
     }
 
     .apple-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.09);
     }
 
     .card-thumb {
-      height: 180px;
+      height: 190px;
       background-size: cover;
       background-position: center;
       position: relative;
+    }
+
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      opacity: 0.9;
+      transition: opacity 0.2s;
+    }
+
+    .apple-card:hover .play-overlay {
+      opacity: 1;
+      background: rgba(0,0,0,0.35);
     }
 
     .card-body {
@@ -344,10 +359,9 @@
 
     .card-tag {
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--primary);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
       margin-bottom: 0.4rem;
     }
 
@@ -373,9 +387,10 @@
       padding-top: 0.75rem;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
-    /* Modal Apple Connexion / Création de compte */
+    /* Modales (Auth / Publish / Video Lightbox) */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -399,7 +414,7 @@
     .apple-modal {
       background: var(--card-bg);
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       border-radius: var(--radius-lg);
       padding: 2.2rem;
       box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
@@ -423,14 +438,12 @@
       font-weight: 600;
       border-radius: 980px;
       cursor: pointer;
-      transition: all 0.2s;
       color: var(--text-muted);
     }
 
     .tab-btn.active {
       background: white;
       color: var(--text);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .input-field {
@@ -442,7 +455,6 @@
       font-size: 0.8rem;
       font-weight: 600;
       margin-bottom: 0.35rem;
-      color: #333;
     }
 
     .apple-input {
@@ -453,11 +465,6 @@
       background: #fbfbfd;
       font-size: 0.95rem;
       outline: none;
-    }
-
-    .apple-input:focus {
-      border-color: var(--primary);
-      background: #ffffff;
     }
 
     .close-modal-btn {
@@ -473,165 +480,225 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #555;
     }
 
-    .no-results {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 4rem 1rem;
-      color: var(--text-muted);
+    /* Video Player Lightbox */
+    .video-modal-content {
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .video-modal-content iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Bandeau Supérieur Noir effet Verre Trempé -->
+  <!-- Bandeau Noir Effet Verre -->
   <header class="glass-header">
     <div class="header-container">
-      <a href="#" class="brand-logo" aria-label="Nuws Home">
-        <!-- SVG Fidèle au Logo Nuws✦ -->
+      <a href="#" class="brand-logo" onclick="resetFilter()">
         <svg viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <text x="0" y="46" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-weight="800" font-size="48" fill="#ffffff" letter-spacing="-1">Nuws</text>
-          <!-- Étoile / Éclat 4 branches -->
           <path d="M142 16 C142 22 146 25 152 25 C146 25 142 28 142 34 C142 28 138 25 132 25 C138 25 142 22 142 16 Z" fill="#ffffff"/>
         </svg>
       </a>
 
       <div class="nav-actions" id="nav-user-slot">
-        <!-- Rempli dynamiquement en JS -->
+        <!-- Bouton Connexion / Profil injecté en JS -->
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Carrousel Style Apple TV (Actualités & Vidéos YouTube) -->
+    <!-- Carrousel Hero Apple TV -->
     <section class="hero-carousel-section">
-      <div class="carousel-track" id="carousel-track">
-        <!-- Contenu injecté dynamiquement -->
-      </div>
+      <div class="carousel-track" id="carousel-track"></div>
       <div class="carousel-dots" id="carousel-dots"></div>
     </section>
 
-    <!-- Recherche Intelligente (Tolérance aux fautes) -->
+    <!-- Recherche Intelligente avec Tolérance aux fautes -->
     <section class="search-section">
       <div class="smart-search-wrapper">
         <i data-lucide="search" size="20"></i>
-        <input type="text" id="smart-search" class="smart-search-input" placeholder="Rechercher un sujet, une actu ou une vidéo YouTube..." autocomplete="off">
+        <input type="text" id="smart-search" class="smart-search-input" placeholder="Rechercher un sujet, un lieu ou une vidéo..." autocomplete="off">
       </div>
-      <p class="search-hint">Recherche intelligente avec correction automatique d'erreurs de frappe.</p>
     </section>
 
-    <!-- Feed de publications -->
+    <!-- Filtres par Catégories -->
+    <div class="categories-bar" id="categories-bar">
+      <button class="cat-pill active" onclick="filterCategory('all', this)">Tous</button>
+      <button class="cat-pill" onclick="filterCategory('USA', this)">🇺🇸 Etats-Unis</button>
+      <button class="cat-pill" onclick="filterCategory('France', this)">🇫🇷 France</button>
+      <button class="cat-pill" onclick="filterCategory('YouTube', this)">🔴 Vidéos YouTube</button>
+      <button class="cat-pill" onclick="filterCategory('Tech', this)">⚡ Tech & Média</button>
+    </div>
+
+    <!-- Grille de publications -->
     <div class="section-header">
       <h2>Dernières publications</h2>
     </div>
 
-    <section class="content-grid" id="main-grid">
-      <!-- Cartes injectées en JS -->
-    </section>
+    <section class="content-grid" id="main-grid"></section>
   </main>
 
-  <!-- Fenêtre Modale de Connexion / Inscription -->
+  <!-- Modal Auth (Connexion / Inscription) -->
   <div class="modal-backdrop" id="auth-modal">
     <div class="apple-modal">
-      <button class="close-modal-btn" id="close-modal-btn"><i data-lucide="x" size="16"></i></button>
+      <button class="close-modal-btn" onclick="closeModal('auth-modal')"><i data-lucide="x" size="16"></i></button>
       
       <div class="modal-tabs">
-        <button class="tab-btn active" id="tab-login">Connexion</button>
-        <button class="tab-btn" id="tab-register">Créer un compte</button>
+        <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Connexion</button>
+        <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Créer un compte</button>
       </div>
 
-      <!-- Formulaire Connexion -->
-      <form id="form-login">
+      <form id="form-login" onsubmit="handleLogin(event)">
         <div class="input-field">
-          <label for="login-email">Adresse e-mail</label>
+          <label>Adresse e-mail</label>
           <input type="email" id="login-email" class="apple-input" placeholder="nom@exemple.com" required>
         </div>
         <div class="input-field">
-          <label for="login-pass">Mot de passe</label>
-          <input type="password" id="login-pass" class="apple-input" placeholder="••••••••" required>
+          <label>Mot de passe</label>
+          <input type="password" class="apple-input" placeholder="••••••••" required>
         </div>
-        <button type="submit" class="btn-apple" style="width: 100%; justify-content: center; padding: 0.8rem; margin-top: 0.5rem; background: var(--primary); color: white;">
+        <button type="submit" class="btn-apple" style="width:100%; justify-content:center; background:var(--primary); color:white; padding:0.8rem; margin-top:0.5rem;">
           Se connecter
         </button>
       </form>
 
-      <!-- Formulaire Inscription -->
-      <form id="form-register" style="display: none;">
+      <form id="form-register" style="display:none;" onsubmit="handleRegister(event)">
         <div class="input-field">
-          <label for="reg-name">Nom complet</label>
-          <input type="text" id="reg-name" class="apple-input" placeholder="Alex Morgan" required>
+          <label>Nom complet</label>
+          <input type="text" id="reg-name" class="apple-input" placeholder="Timéo" required>
         </div>
         <div class="input-field">
-          <label for="reg-email">Adresse e-mail</label>
+          <label>Adresse e-mail</label>
           <input type="email" id="reg-email" class="apple-input" placeholder="nom@exemple.com" required>
         </div>
         <div class="input-field">
-          <label for="reg-pass">Mot de passe</label>
-          <input type="password" id="reg-pass" class="apple-input" placeholder="••••••••" required>
+          <label>Mot de passe</label>
+          <input type="password" class="apple-input" placeholder="••••••••" required>
         </div>
-        <button type="submit" class="btn-apple" style="width: 100%; justify-content: center; padding: 0.8rem; margin-top: 0.5rem; background: var(--primary); color: white;">
+        <button type="submit" class="btn-apple" style="width:100%; justify-content:center; background:var(--primary); color:white; padding:0.8rem; margin-top:0.5rem;">
           Créer mon compte
         </button>
       </form>
     </div>
   </div>
 
+  <!-- Modal de Publication (Visible quand connecté) -->
+  <div class="modal-backdrop" id="publish-modal">
+    <div class="apple-modal">
+      <button class="close-modal-btn" onclick="closeModal('publish-modal')"><i data-lucide="x" size="16"></i></button>
+      <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:1.2rem;">Publier sur Nuws</h3>
+      <form onsubmit="handlePublish(event)">
+        <div class="input-field">
+          <label>Titre de la publication</label>
+          <input type="text" id="pub-title" class="apple-input" placeholder="Titre percutant..." required>
+        </div>
+        <div class="input-field">
+          <label>Catégorie</label>
+          <select id="pub-cat" class="apple-input">
+            <option value="USA">🇺🇸 États-Unis</option>
+            <option value="France">🇫🇷 France</option>
+            <option value="YouTube">🔴 Vidéo YouTube</option>
+            <option value="Tech">⚡ Tech & Média</option>
+          </select>
+        </div>
+        <div class="input-field">
+          <label>ID de la vidéo YouTube (optionnel)</label>
+          <input type="text" id="pub-yt-id" class="apple-input" placeholder="Ex: dQw4w9WgXcQ">
+        </div>
+        <div class="input-field">
+          <label>URL de l'image de couverture</label>
+          <input type="url" id="pub-img" class="apple-input" placeholder="https://images.unsplash.com/..." required>
+        </div>
+        <div class="input-field">
+          <label>Résumé / Contenu</label>
+          <textarea id="pub-desc" class="apple-input" rows="3" style="resize:none;" placeholder="Description..." required></textarea>
+        </div>
+        <button type="submit" class="btn-apple" style="width:100%; justify-content:center; background:var(--primary); color:white; padding:0.8rem;">
+          Publier en direct
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox Lecteur Vidéo YouTube -->
+  <div class="modal-backdrop" id="video-modal">
+    <div class="video-modal-content">
+      <button class="close-modal-btn" style="z-index:10; top:10px; right:10px;" onclick="closeModal('video-modal')"><i data-lucide="x" size="16"></i></button>
+      <iframe id="youtube-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+  </div>
+
   <script>
-    // --- Initialisation des icônes ---
     lucide.createIcons();
 
-    // --- Base de données du site (Actus & YouTube) ---
-    const database = [
+    // Base de données par défaut de Nuws
+    let defaultArticles = [
       {
         id: "yt-1",
         type: "youtube",
-        title: "Les NUWS aux STATES : Édition spéciale",
-        category: "YouTube • Vidéo",
+        ytId: "dQw4w9WgXcQ",
+        title: "Les NUWS aux STATES : Premier Épisode",
+        category: "USA",
         date: "8 août 2026",
-        description: "Analyse complète et décryptage des mouvements politiques et économiques récents à travers les États-Unis.",
+        description: "Analyse complète des actualités nationales et internationales à travers les États-Unis.",
         image: "https://images.unsplash.com/photo-1508433957232-3107f5fd5995?auto=format&fit=crop&w=1200&q=80",
-        link: "https://youtube.com",
         featured: true
       },
       {
         id: "news-1",
-        type: "news",
-        title: "Lancement de la nouvelle expérience Nuws",
-        category: "Actualité",
+        type: "article",
+        title: "Lancement de la plateforme média Nuws",
+        category: "Tech",
         date: "8 août 2026",
-        description: "Découvrez notre nouveau média indépendant axé sur l'information fluide, rapide et accessible.",
+        description: "Nuws est maintenant officiellement déployé avec son interface fluide et son système d'information dynamique.",
         image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
-        link: "#",
         featured: true
+      },
+      {
+        id: "news-2",
+        type: "article",
+        title: "Flash France : Décryptage de la journée",
+        category: "France",
+        date: "7 août 2026",
+        description: "Le point sur les actualités politiques, économiques et sociétales en France.",
+        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
+        featured: false
       },
       {
         id: "yt-2",
         type: "youtube",
-        title: "Reportage : En immersion dans la tech américaine",
-        category: "YouTube • Short",
-        date: "7 août 2026",
-        description: "Focus sur les dernières innovations de la Silicon Valley et l'impact sur le paysage numérique global.",
+        ytId: "dQw4w9WgXcQ",
+        title: "Shorts Nuws : Les tendances du moment",
+        category: "YouTube",
+        date: "6 août 2026",
+        description: "Résumé condensé en 60 secondes des faits marquants de la semaine.",
         image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-        link: "https://youtube.com",
-        featured: false
-      },
-      {
-        id: "news-2",
-        type: "news",
-        title: "Économie et Médias : Le grand virage de 2026",
-        category: "Analyse",
-        date: "5 août 2026",
-        description: "Comment la consommation de l'information évolue vers des plateformes directes et sans intermédiaires.",
-        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
-        link: "#",
         featured: false
       }
     ];
 
-    // --- Moteur de Carrousel Apple TV ---
-    const featuredItems = database.filter(item => item.featured);
+    // Chargement depuis LocalStorage pour conserver les articles créés
+    function getArticles() {
+      const stored = localStorage.getItem('nuws_articles');
+      return stored ? JSON.parse(stored) : defaultArticles;
+    }
+
+    let currentCategory = 'all';
+
+    // Carousel Apple TV
+    const featuredItems = getArticles().filter(item => item.featured);
     const track = document.getElementById('carousel-track');
     const dotsContainer = document.getElementById('carousel-dots');
     let currentSlide = 0;
@@ -643,79 +710,4 @@
           <div class="slide-content">
             <span class="slide-badge ${item.type === 'youtube' ? 'youtube' : ''}">
               <i data-lucide="${item.type === 'youtube' ? 'play-circle' : 'newspaper'}" size="14"></i>
-              ${item.category}
-            </span>
-            <h1 class="slide-title">${item.title}</h1>
-            <p class="slide-desc">${item.description}</p>
-            <a href="${item.link}" target="_blank" class="slide-btn">
-              <span>${item.type === 'youtube' ? 'Regarder la vidéo' : 'Lire l\'actualité'}</span>
-              <i data-lucide="arrow-right" size="16"></i>
-            </a>
-          </div>
-        </div>
-      `).join('');
-
-      dotsContainer.innerHTML = featuredItems.map((_, i) => `
-        <div class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>
-      `).join('');
-
-      lucide.createIcons();
-    }
-
-    function goToSlide(index) {
-      currentSlide = index;
-      track.style.transform = `translateX(-${index * 100}%)`;
-      document.querySelectorAll('.dot').forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-    }
-
-    // Défilement automatique
-    setInterval(() => {
-      currentSlide = (currentSlide + 1) % featuredItems.length;
-      goToSlide(currentSlide);
-    }, 6000);
-
-    // --- Moteur de Recherche Intelligente (Tolérance aux fautes / Levenshtein) ---
-    function levenshteinDistance(a, b) {
-      const matrix = [];
-      for (let i = 0; i <= b.length; i++) matrix[i] = [i];
-      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
-
-      for (let i = 1; i <= b.length; i++) {
-        for (let j = 1; j <= a.length; j++) {
-          if (b.charAt(i - 1) === a.charAt(j - 1)) {
-            matrix[i][j] = matrix[i - 1][j - 1];
-          } else {
-            matrix[i][j] = Math.min(
-              matrix[i - 1][j - 1] + 1,
-              Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
-            );
-          }
-        }
-      }
-      return matrix[b.length][a.length];
-    }
-
-    function fuzzyMatch(query, text) {
-      const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-      const t = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-      if (!q) return true;
-
-      const qWords = q.split(/\s+/);
-      const tWords = t.split(/\s+/);
-
-      return qWords.every(qWord => {
-        // Recherche sous-chaîne exacte
-        if (t.includes(qWord)) return true;
-        // Recherche avec marge d'erreur pour les fautes de frappe
-        return tWords.some(tWord => {
-          if (tWord.length <= 2) return tWord === qWord;
-          const maxAllowedErrors = qWord.length > 5 ? 2 : 1;
-          return levenshteinDistance(qWord, tWord) <= maxAllowedErrors;
-        });
-      });
-    }
-
-    // --- Afficha
+              ${item.ca
