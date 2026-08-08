@@ -3,32 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuws — Moteur d'Actualité & IA</title>
-  <!-- Google Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Nuws — Actualités & Médias</title>
+  
+  <!-- Polices système & Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #f5f5f7;
       --card-bg: #ffffff;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-light: #eff6ff;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --radius: 14px;
-      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      --nav-bg: rgba(0, 0, 0, 0.82);
+      --primary: #0071e3;
+      --primary-hover: #0077ed;
+      --text: #1d1d1f;
+      --text-muted: #86868b;
+      --border: rgba(0, 0, 0, 0.08);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --shadow-apple: 0 12px 32px rgba(0, 0, 0, 0.06);
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
@@ -39,424 +39,541 @@
       flex-direction: column;
     }
 
-    /* Navbar */
-    .navbar {
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--border);
+    /* Bandeau supérieur Apple Glass (Frosted Black) */
+    .glass-header {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .nav-container {
-      max-width: 1100px;
+    .header-container {
+      max-width: 1140px;
       margin: 0 auto;
-      padding: 1rem 1.5rem;
+      padding: 0.85rem 1.5rem;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
     }
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text);
+    /* Logo Nuws exact (SVG vectoriel fidèle à l'image) */
+    .brand-logo {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       text-decoration: none;
+      color: white;
+      transition: opacity 0.2s;
     }
 
-    .logo span { color: var(--primary); }
+    .brand-logo:hover {
+      opacity: 0.85;
+    }
 
-    .user-actions {
+    .brand-logo svg {
+      height: 28px;
+      width: auto;
+    }
+
+    /* Actions utilisateur */
+    .nav-actions {
       display: flex;
       align-items: center;
       gap: 1rem;
     }
 
-    .btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
+    .btn-apple {
+      background: #ffffff;
+      color: #000000;
       border: none;
-      transition: all 0.2s ease;
+      padding: 0.55rem 1.1rem;
+      border-radius: 980px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-apple:hover {
+      transform: scale(1.02);
+      background: #e8e8ed;
+    }
+
+    .user-pill {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.875rem;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 0.4rem 0.9rem;
+      border-radius: 980px;
+      display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .btn-primary {
-      background-color: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .btn-outline:hover {
-      background-color: var(--primary-light);
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.4rem 0.8rem;
-      background: var(--primary-light);
-      border-radius: 30px;
-      border: 1px solid rgba(37, 99, 235, 0.2);
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
+    .btn-link-dark {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
       font-size: 0.85rem;
+      margin-left: 0.5rem;
     }
 
-    /* Main Container */
-    .main-container {
-      max-width: 900px;
-      margin: 2.5rem auto;
+    .btn-link-dark:hover { color: white; }
+
+    /* Layout principal */
+    main {
+      max-width: 1140px;
+      margin: 2rem auto 4rem;
       padding: 0 1.5rem;
-      flex: 1;
       width: 100%;
+      flex: 1;
     }
 
-    /* Hero / AI Search Engine Section */
-    .ai-search-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 2.5rem;
+    /* Apple TV Hero Carousel */
+    .hero-carousel-section {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      background: #000;
+      margin-bottom: 3rem;
+      height: 420px;
     }
 
-    .ai-search-header {
-      margin-bottom: 1.2rem;
+    .carousel-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .ai-badge {
+    .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 3rem;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .slide-content {
+      position: relative;
+      z-index: 2;
+      color: white;
+      max-width: 650px;
+    }
+
+    .slide-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      background: var(--primary-light);
-      color: var(--primary);
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 0.35rem 0.85rem;
+      border-radius: 980px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+
+    .slide-badge.youtube { background: rgba(255, 0, 0, 0.8); }
+
+    .slide-title {
+      font-size: 2rem;
       font-weight: 700;
-      margin-bottom: 0.75rem;
+      line-height: 1.2;
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.01em;
     }
 
-    .ai-search-header h2 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+    .slide-desc {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
     }
 
-    .search-box {
-      display: flex;
-      gap: 0.75rem;
-      margin-top: 1rem;
+    .slide-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #ffffff;
+      color: #000;
+      padding: 0.75rem 1.5rem;
+      border-radius: 980px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: transform 0.2s;
     }
 
-    .search-input-wrapper {
-      position: relative;
-      flex: 1;
-    }
+    .slide-btn:hover { transform: scale(1.03); }
 
-    .search-input-wrapper i {
+    /* Pagination Apple TV Dots */
+    .carousel-dots {
       position: absolute;
-      left: 1rem;
+      bottom: 1.2rem;
+      right: 2rem;
+      z-index: 10;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      background: #ffffff;
+      width: 24px;
+      border-radius: 10px;
+    }
+
+    /* Barre de Recherche Intelligente (Fuzzy Search) */
+    .search-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .smart-search-wrapper {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .smart-search-wrapper i {
+      position: absolute;
+      left: 1.25rem;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-muted);
     }
 
-    .search-input {
+    .smart-search-input {
       width: 100%;
-      padding: 0.9rem 1rem 0.9rem 2.8rem;
-      border-radius: 10px;
+      padding: 1.1rem 1.25rem 1.1rem 3.2rem;
+      border-radius: 980px;
       border: 1px solid var(--border);
-      font-size: 0.95rem;
+      background: var(--card-bg);
+      font-size: 1.05rem;
       outline: none;
-      transition: border-color 0.2s;
+      box-shadow: var(--shadow-apple);
+      transition: all 0.2s ease;
     }
 
-    .search-input:focus {
+    .smart-search-input:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
     }
 
-    /* AI Response Box */
-    .ai-response {
-      margin-top: 1.5rem;
-      padding: 1.25rem;
-      background: var(--bg);
-      border-radius: 10px;
+    .search-hint {
+      text-align: center;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
+    /* Grille de Contenu */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .apple-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      overflow: hidden;
       border: 1px solid var(--border);
-      display: none;
+      box-shadow: var(--shadow-apple);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+      display: flex;
+      flex-direction: column;
     }
 
-    .ai-response.active {
-      display: block;
-      animation: fadeIn 0.3s ease;
+    .apple-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.09);
     }
 
-    .ai-response-title {
-      font-weight: 700;
-      font-size: 0.9rem;
+    .card-thumb {
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .card-body {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.4rem;
     }
 
-    .ai-response-body {
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: #334155;
-    }
-
-    /* Feed Section */
-    .section-title {
-      font-size: 1.2rem;
+    .card-title {
+      font-size: 1.15rem;
       font-weight: 700;
-      margin-bottom: 1.2rem;
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-text {
+      color: #515154;
+      font-size: 0.925rem;
+      line-height: 1.5;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .card-footer {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
     }
 
-    .news-feed {
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-    }
-
-    .news-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s;
-    }
-
-    .news-card:hover {
-      transform: translateY(-2px);
-    }
-
-    .news-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.6rem;
-      font-size: 0.825rem;
-    }
-
-    .category-tag {
-      background: var(--primary-light);
-      color: var(--primary);
-      font-weight: 700;
-      padding: 0.2rem 0.6.rem;
-      border-radius: 6px;
-    }
-
-    .news-date {
-      color: var(--text-muted);
-    }
-
-    .news-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .news-excerpt {
-      color: #475569;
-      font-size: 0.95rem;
-      line-height: 1.5;
-    }
-
-    /* Modal Connexion */
-    .modal-overlay {
+    /* Modal Apple Connexion / Création de compte */
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      z-index: 2000;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.25s ease;
     }
 
-    .modal-overlay.active {
+    .modal-backdrop.open {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .modal {
+    .apple-modal {
       background: var(--card-bg);
-      border-radius: 16px;
       width: 100%;
-      max-width: 400px;
-      padding: 2rem;
-      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+      max-width: 420px;
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
       position: relative;
     }
 
-    .modal-header {
+    .modal-tabs {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #e8e8ed;
+      padding: 3px;
+      border-radius: 980px;
       margin-bottom: 1.5rem;
     }
 
-    .modal-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-    }
-
-    .close-btn {
-      background: none;
+    .tab-btn {
+      flex: 1;
+      padding: 0.5rem;
       border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 980px;
       cursor: pointer;
+      transition: all 0.2s;
       color: var(--text-muted);
     }
 
-    .form-group {
-      margin-bottom: 1.2rem;
+    .tab-btn.active {
+      background: white;
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
-    .form-group label {
+    .input-field {
+      margin-bottom: 1.1rem;
+    }
+
+    .input-field label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
+      color: #333;
     }
 
-    .form-control {
+    .apple-input {
       width: 100%;
-      padding: 0.75rem 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      background: #fbfbfd;
       font-size: 0.95rem;
       outline: none;
     }
 
-    .form-control:focus {
+    .apple-input:focus {
       border-color: var(--primary);
+      background: #ffffff;
     }
 
-    .modal-footer {
-      margin-top: 1.5rem;
+    .close-modal-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: #e8e8ed;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #555;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--text-muted);
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="nav-container">
-      <a href="#" class="logo">
-        <i data-lucide="sparkles" style="color: var(--primary);"></i>
-        Nuws<span>.</span>
+  <!-- Bandeau Supérieur Noir effet Verre Trempé -->
+  <header class="glass-header">
+    <div class="header-container">
+      <a href="#" class="brand-logo" aria-label="Nuws Home">
+        <!-- SVG Fidèle au Logo Nuws✦ -->
+        <svg viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="46" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-weight="800" font-size="48" fill="#ffffff" letter-spacing="-1">Nuws</text>
+          <!-- Étoile / Éclat 4 branches -->
+          <path d="M142 16 C142 22 146 25 152 25 C146 25 142 28 142 34 C142 28 138 25 132 25 C138 25 142 22 142 16 Z" fill="#ffffff"/>
+        </svg>
       </a>
-      <div class="user-actions" id="auth-actions">
-        <!-- Boutons dynamiques gérés par JavaScript -->
+
+      <div class="nav-actions" id="nav-user-slot">
+        <!-- Rempli dynamiquement en JS -->
       </div>
     </div>
   </header>
 
-  <!-- Contenu Principal -->
-  <main class="main-container">
-
-    <!-- Bloc Moteur IA Nuws -->
-    <section class="ai-search-card">
-      <div class="ai-search-header">
-        <span class="ai-badge"><i data-lucide="bot" size="14"></i> Nuws AI Engine</span>
-        <h2>Posez une question ou cherchez une actualité</h2>
+  <main>
+    <!-- Carrousel Style Apple TV (Actualités & Vidéos YouTube) -->
+    <section class="hero-carousel-section">
+      <div class="carousel-track" id="carousel-track">
+        <!-- Contenu injecté dynamiquement -->
       </div>
-      <form id="ai-form" class="search-box">
-        <div class="search-input-wrapper">
-          <i data-lucide="search" size="18"></i>
-          <input type="text" id="ai-input" class="search-input" placeholder="Ex: Que se passe-t-il aux États-Unis aujourd'hui ?" required>
-        </div>
-        <button type="submit" class="btn btn-primary" id="ai-submit-btn">
-          <span>Générer</span>
-          <i data-lucide="arrow-right" size="16"></i>
-        </button>
-      </form>
-
-      <!-- Résultat de la synthèse IA -->
-      <div id="ai-response" class="ai-response">
-        <div class="ai-response-title">
-          <i data-lucide="cpu" size="16"></i> Synthèse Nuws AI
-        </div>
-        <div id="ai-response-text" class="ai-response-body"></div>
-      </div>
+      <div class="carousel-dots" id="carousel-dots"></div>
     </section>
 
-    <!-- Fil d'actualités -->
-    <div class="section-title">
-      <span><i data-lucide="newspaper" size="18" style="vertical-align: middle; margin-right: 6px;"></i> Derniers Flashs</span>
+    <!-- Recherche Intelligente (Tolérance aux fautes) -->
+    <section class="search-section">
+      <div class="smart-search-wrapper">
+        <i data-lucide="search" size="20"></i>
+        <input type="text" id="smart-search" class="smart-search-input" placeholder="Rechercher un sujet, une actu ou une vidéo YouTube..." autocomplete="off">
+      </div>
+      <p class="search-hint">Recherche intelligente avec correction automatique d'erreurs de frappe.</p>
+    </section>
+
+    <!-- Feed de publications -->
+    <div class="section-header">
+      <h2>Dernières publications</h2>
     </div>
 
-    <section id="news-feed" class="news-feed">
-      <!-- Les articles seront générés ici -->
+    <section class="content-grid" id="main-grid">
+      <!-- Cartes injectées en JS -->
     </section>
   </main>
 
-  <!-- Modal de Connexion / Inscription -->
-  <div class="modal-overlay" id="auth-modal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Connexion à Nuws</h3>
-        <button class="close-btn" id="close-modal"><i data-lucide="x" size="20"></i></button>
+  <!-- Fenêtre Modale de Connexion / Inscription -->
+  <div class="modal-backdrop" id="auth-modal">
+    <div class="apple-modal">
+      <button class="close-modal-btn" id="close-modal-btn"><i data-lucide="x" size="16"></i></button>
+      
+      <div class="modal-tabs">
+        <button class="tab-btn active" id="tab-login">Connexion</button>
+        <button class="tab-btn" id="tab-register">Créer un compte</button>
       </div>
-      <form id="auth-form">
-        <div class="form-group">
-          <label for="email">Adresse E-mail</label>
-          <input type="email" id="email" class="form-control" placeholder="nom@exemple.com" required>
+
+      <!-- Formulaire Connexion -->
+      <form id="form-login">
+        <div class="input-field">
+          <label for="login-email">Adresse e-mail</label>
+          <input type="email" id="login-email" class="apple-input" placeholder="nom@exemple.com" required>
         </div>
-        <div class="form-group">
-          <label for="password">Mot de passe</label>
-          <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+        <div class="input-field">
+          <label for="login-pass">Mot de passe</label>
+          <input type="password" id="login-pass" class="apple-input" placeholder="••••••••" required>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
-            Se connecter
-          </button>
+        <button type="submit" class="btn-apple" style="width: 100%; justify-content: center; padding: 0.8rem; margin-top: 0.5rem; background: var(--primary); color: white;">
+          Se connecter
+        </button>
+      </form>
+
+      <!-- Formulaire Inscription -->
+      <form id="form-register" style="display: none;">
+        <div class="input-field">
+          <label for="reg-name">Nom complet</label>
+          <input type="text" id="reg-name" class="apple-input" placeholder="Alex Morgan" required>
         </div>
+        <div class="input-field">
+          <label for="reg-email">Adresse e-mail</label>
+          <input type="email" id="reg-email" class="apple-input" placeholder="nom@exemple.com" required>
+        </div>
+        <div class="input-field">
+          <label for="reg-pass">Mot de passe</label>
+          <input type="password" id="reg-pass" class="apple-input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-apple" style="width: 100%; justify-content: center; padding: 0.8rem; margin-top: 0.5rem; background: var(--primary); color: white;">
+          Créer mon compte
+        </button>
       </form>
     </div>
   </div>
@@ -465,125 +582,140 @@
     // --- Initialisation des icônes ---
     lucide.createIcons();
 
-    // --- Données d'actualités de démonstration ---
-    const initialArticles = [
+    // --- Base de données du site (Actus & YouTube) ---
+    const database = [
       {
-        id: 1,
-        title: "Lancement officiel de la plateforme intelligente Nuws",
-        category: "Technologie",
+        id: "yt-1",
+        type: "youtube",
+        title: "Les NUWS aux STATES : Édition spéciale",
+        category: "YouTube • Vidéo",
         date: "8 août 2026",
-        content: "Nuws déploie son nouveau moteur de recherche et de synthèse d'actualités alimenté par l'intelligence artificielle pour offrir une information claire, directe et vérifiée."
+        description: "Analyse complète et décryptage des mouvements politiques et économiques récents à travers les États-Unis.",
+        image: "https://images.unsplash.com/photo-1508433957232-3107f5fd5995?auto=format&fit=crop&w=1200&q=80",
+        link: "https://youtube.com",
+        featured: true
       },
       {
-        id: 2,
-        title: "Flash USA : Résumé des grands enjeux récents",
-        category: "International",
+        id: "news-1",
+        type: "news",
+        title: "Lancement de la nouvelle expérience Nuws",
+        category: "Actualité",
         date: "8 août 2026",
-        content: "Découvrez la synthèse hebdomadaire des évolutions politiques, économiques et sociétales majeures sur le territoire américain."
+        description: "Découvrez notre nouveau média indépendant axé sur l'information fluide, rapide et accessible.",
+        image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
+        link: "#",
+        featured: true
+      },
+      {
+        id: "yt-2",
+        type: "youtube",
+        title: "Reportage : En immersion dans la tech américaine",
+        category: "YouTube • Short",
+        date: "7 août 2026",
+        description: "Focus sur les dernières innovations de la Silicon Valley et l'impact sur le paysage numérique global.",
+        image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+        link: "https://youtube.com",
+        featured: false
+      },
+      {
+        id: "news-2",
+        type: "news",
+        title: "Économie et Médias : Le grand virage de 2026",
+        category: "Analyse",
+        date: "5 août 2026",
+        description: "Comment la consommation de l'information évolue vers des plateformes directes et sans intermédiaires.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+        link: "#",
+        featured: false
       }
     ];
 
-    // --- Gestion de l'état de la connexion (Auth) ---
-    const authActions = document.getElementById('auth-actions');
-    const authModal = document.getElementById('auth-modal');
-    const closeModal = document.getElementById('close-modal');
-    const authForm = document.getElementById('auth-form');
+    // --- Moteur de Carrousel Apple TV ---
+    const featuredItems = database.filter(item => item.featured);
+    const track = document.getElementById('carousel-track');
+    const dotsContainer = document.getElementById('carousel-dots');
+    let currentSlide = 0;
 
-    function checkAuthState() {
-      const user = JSON.parse(localStorage.getItem('nuws_user'));
-      if (user) {
-        const initial = user.email.charAt(0).toUpperCase();
-        authActions.innerHTML = `
-          <div class="user-profile">
-            <div class="avatar">${initial}</div>
-            <span style="font-size: 0.85rem; font-weight: 600;">${user.email.split('@')[0]}</span>
+    function renderCarousel() {
+      track.innerHTML = featuredItems.map(item => `
+        <div class="carousel-slide" style="background-image: url('${item.image}');">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <span class="slide-badge ${item.type === 'youtube' ? 'youtube' : ''}">
+              <i data-lucide="${item.type === 'youtube' ? 'play-circle' : 'newspaper'}" size="14"></i>
+              ${item.category}
+            </span>
+            <h1 class="slide-title">${item.title}</h1>
+            <p class="slide-desc">${item.description}</p>
+            <a href="${item.link}" target="_blank" class="slide-btn">
+              <span>${item.type === 'youtube' ? 'Regarder la vidéo' : 'Lire l\'actualité'}</span>
+              <i data-lucide="arrow-right" size="16"></i>
+            </a>
           </div>
-          <button class="btn btn-outline" id="logout-btn">
-            <i data-lucide="log-out" size="16"></i> Déconnexion
-          </button>
-        `;
-        document.getElementById('logout-btn').addEventListener('click', logout);
-      } else {
-        authActions.innerHTML = `
-          <button class="btn btn-primary" id="login-btn">
-            <i data-lucide="user" size="16"></i> Connexion
-          </button>
-        `;
-        document.getElementById('login-btn').addEventListener('click', () => {
-          authModal.classList.add('active');
-        });
-      }
+        </div>
+      `).join('');
+
+      dotsContainer.innerHTML = featuredItems.map((_, i) => `
+        <div class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>
+      `).join('');
+
       lucide.createIcons();
     }
 
-    function logout() {
-      localStorage.removeItem('nuws_user');
-      checkAuthState();
+    function goToSlide(index) {
+      currentSlide = index;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
     }
 
-    closeModal.addEventListener('click', () => {
-      authModal.classList.remove('active');
-    });
+    // Défilement automatique
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % featuredItems.length;
+      goToSlide(currentSlide);
+    }, 6000);
 
-    authForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      localStorage.setItem('nuws_user', JSON.stringify({ email }));
-      authModal.classList.remove('active');
-      checkAuthState();
-    });
+    // --- Moteur de Recherche Intelligente (Tolérance aux fautes / Levenshtein) ---
+    function levenshteinDistance(a, b) {
+      const matrix = [];
+      for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
 
-    // --- Affichage du Fil d'Actualités ---
-    function renderNews() {
-      const feed = document.getElementById('news-feed');
-      feed.innerHTML = initialArticles.map(art => `
-        <article class="news-card">
-          <div class="news-meta">
-            <span class="category-tag">${art.category}</span>
-            <span class="news-date">${art.date}</span>
-          </div>
-          <h3 class="news-title">${art.title}</h3>
-          <p class="news-excerpt">${art.content}</p>
-        </article>
-      `).join('');
+      for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+          if (b.charAt(i - 1) === a.charAt(j - 1)) {
+            matrix[i][j] = matrix[i - 1][j - 1];
+          } else {
+            matrix[i][j] = Math.min(
+              matrix[i - 1][j - 1] + 1,
+              Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1)
+            );
+          }
+        }
+      }
+      return matrix[b.length][a.length];
     }
 
-    // --- Moteur d'IA Nuws (Simulation de traitement intelligent) ---
-    const aiForm = document.getElementById('ai-form');
-    const aiInput = document.getElementById('ai-input');
-    const aiResponse = document.getElementById('ai-response');
-    const aiResponseText = document.getElementById('ai-response-text');
-    const aiSubmitBtn = document.getElementById('ai-submit-btn');
+    function fuzzyMatch(query, text) {
+      const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+      const t = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-    aiForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const query = aiInput.value.trim();
-      if (!query) return;
+      if (!q) return true;
 
-      // Animation de chargement
-      aiSubmitBtn.disabled = true;
-      aiSubmitBtn.innerHTML = `<span>Analyse...</span>`;
-      aiResponse.classList.remove('active');
+      const qWords = q.split(/\s+/);
+      const tWords = t.split(/\s+/);
 
-      setTimeout(() => {
-        aiSubmitBtn.disabled = false;
-        aiSubmitBtn.innerHTML = `<span>Générer</span> <i data-lucide="arrow-right" size="16"></i>`;
-        lucide.createIcons();
+      return qWords.every(qWord => {
+        // Recherche sous-chaîne exacte
+        if (t.includes(qWord)) return true;
+        // Recherche avec marge d'erreur pour les fautes de frappe
+        return tWords.some(tWord => {
+          if (tWord.length <= 2) return tWord === qWord;
+          const maxAllowedErrors = qWord.length > 5 ? 2 : 1;
+          return levenshteinDistance(qWord, tWord) <= maxAllowedErrors;
+        });
+      });
+    }
 
-        // Réponse simulée de l'IA Nuws
-        const responseText = `Voici la synthèse Nuws pour "<strong>${query}</strong>" :<br><br>
-        • <strong>Point clé 1 :</strong> Les récentes analyses indiquent une accélération des échanges et des informations ciblées sur ce sujet.<br>
-        • <strong>Point clé 2 :</strong> Nuws AI regroupe les sources vérifiées pour vous fournir une couverture synthétique et sans filtre.<br><br>
-        <em>Mise à jour en direct enregistrée par le moteur Nuws.</em>`;
-
-        aiResponseText.innerHTML = responseText;
-        aiResponse.classList.add('active');
-      }, 1000);
-    });
-
-    // --- Démarrage ---
-    checkAuthState();
-    renderNews();
-  </script>
-</body>
-</html>
+    // --- Afficha
