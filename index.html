@@ -1,713 +1,241 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuws — Actualités & Médias</title>
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The.Nuws.official - L'information, simplifiée</title>
+    <style>
+        /* Réinitialisation et typographie de base */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            -webkit-font-smoothing: antialiased;
+        }
 
-  <style>
-    :root {
-      --bg: #f5f5f7;
-      --card-bg: #ffffff;
-      --nav-bg: rgba(0, 0, 0, 0.82);
-      --primary: #0071e3;
-      --primary-hover: #0077ed;
-      --text: #1d1d1f;
-      --text-muted: #86868b;
-      --border: rgba(0, 0, 0, 0.08);
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --shadow-apple: 0 12px 32px rgba(0, 0, 0, 0.06);
-    }
+        /* Barre de navigation avec effet Glassmorphism */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            transition: color 0.3s ease;
+        }
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+        nav a:hover {
+            color: #000;
+        }
 
-    /* Bandeau Noir Effet Verre */
-    .glass-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: var(--nav-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
+        /* Sections principales */
+        section {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 120px 20px 0;
+            margin-bottom: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .header-container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0.85rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+        h1 {
+            font-size: 56px;
+            font-weight: 600;
+            letter-spacing: -0.005em;
+            margin: 0;
+        }
 
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: white;
-    }
+        h2 {
+            font-size: 28px;
+            font-weight: 400;
+            margin: 6px 0 0 0;
+        }
 
-    .brand-logo svg {
-      height: 28px;
-      width: auto;
-    }
+        /* Boutons et liens d'action */
+        .cta-container {
+            margin-top: 15px;
+            margin-bottom: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+        .btn-primary {
+            background-color: #0071e3;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 980px; /* Effet pilule */
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+        }
 
-    .btn-apple {
-      background: #ffffff;
-      color: #000000;
-      border: none;
-      padding: 0.55rem 1.1rem;
-      border-radius: 980px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
+        .btn-primary:hover {
+            background-color: #0077ed;
+        }
 
-    .btn-apple:hover {
-      transform: scale(1.02);
-      background: #e8e8ed;
-    }
+        .btn-link {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 400;
+        }
 
-    .btn-publish {
-      background: var(--primary);
-      color: white;
-    }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
 
-    .btn-publish:hover {
-      background: var(--primary-hover);
-    }
+        /* Espace pour les images/vidéos */
+        .media-placeholder {
+            width: 100%;
+            max-width: 1200px;
+            height: 500px;
+            background: linear-gradient(135deg, #f0f0f5, #e1e1e8);
+            border-radius: 20px 20px 0 0;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #86868b;
+        }
 
-    .user-pill {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 0.875rem;
-      background: rgba(255, 255, 255, 0.12);
-      padding: 0.4rem 0.9rem;
-      border-radius: 980px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+        /* Grille de contenu (façon iPad/Watch) */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 0 12px;
+            margin-bottom: 12px;
+        }
 
-    .btn-link-dark {
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.7);
-      cursor: pointer;
-      font-size: 0.85rem;
-      margin-left: 0.5rem;
-    }
+        .grid-item {
+            background-color: #ffffff;
+            text-align: center;
+            padding: 60px 20px 0;
+            min-height: 580px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .btn-link-dark:hover { color: white; }
+        .grid-item h3 {
+            font-size: 40px;
+            font-weight: 600;
+            margin: 0;
+        }
 
-    main {
-      max-width: 1140px;
-      margin: 2rem auto 4rem;
-      padding: 0 1.5rem;
-      width: 100%;
-      flex: 1;
-    }
+        .grid-item p {
+            font-size: 21px;
+            margin: 8px 0 0 0;
+        }
 
-    /* Carrousel Hero Apple TV */
-    .hero-carousel-section {
-      position: relative;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      background: #000;
-      margin-bottom: 2.5rem;
-      height: 420px;
-    }
+        .grid-item .media-placeholder {
+            height: 350px;
+            width: 80%;
+            border-radius: 20px;
+            margin-top: auto;
+            margin-bottom: 30px;
+        }
 
-    .carousel-track {
-      display: flex;
-      height: 100%;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+        /* Footer */
+        footer {
+            background-color: #f5f5f7;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #86868b;
+        }
 
-    .carousel-slide {
-      min-width: 100%;
-      height: 100%;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 3rem;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .slide-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
-    }
-
-    .slide-content {
-      position: relative;
-      z-index: 2;
-      color: white;
-      max-width: 650px;
-    }
-
-    .slide-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      padding: 0.35rem 0.85rem;
-      border-radius: 980px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.8rem;
-    }
-
-    .slide-badge.youtube { background: #ff0000; }
-
-    .slide-title {
-      font-size: 2rem;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 0.8rem;
-    }
-
-    .slide-desc {
-      font-size: 1rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin-bottom: 1.5rem;
-      line-height: 1.4;
-    }
-
-    .carousel-dots {
-      position: absolute;
-      bottom: 1.2rem;
-      right: 2rem;
-      z-index: 10;
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.35);
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .dot.active {
-      background: #ffffff;
-      width: 24px;
-      border-radius: 10px;
-    }
-
-    /* Barre de Recherche Intelligente */
-    .search-section {
-      margin-bottom: 2rem;
-    }
-
-    .smart-search-wrapper {
-      position: relative;
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .smart-search-wrapper i {
-      position: absolute;
-      left: 1.25rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-    }
-
-    .smart-search-input {
-      width: 100%;
-      padding: 1.1rem 1.25rem 1.1rem 3.2rem;
-      border-radius: 980px;
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      font-size: 1.05rem;
-      outline: none;
-      box-shadow: var(--shadow-apple);
-      transition: all 0.2s ease;
-    }
-
-    .smart-search-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
-    }
-
-    /* Pilules de Catégories */
-    .categories-bar {
-      display: flex;
-      justify-content: center;
-      gap: 0.6rem;
-      margin-bottom: 2.5rem;
-      flex-wrap: wrap;
-    }
-
-    .cat-pill {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 0.5rem 1.1rem;
-      border-radius: 980px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .cat-pill:hover, .cat-pill.active {
-      background: var(--text);
-      color: white;
-      border-color: var(--text);
-    }
-
-    /* Grille de contenu */
-    .section-header {
-      margin-bottom: 1.5rem;
-    }
-
-    .section-header h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .apple-card {
-      background: var(--card-bg);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-apple);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .apple-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .card-thumb {
-      height: 190px;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-    }
-
-    .play-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      opacity: 0.9;
-      transition: opacity 0.2s;
-    }
-
-    .apple-card:hover .play-overlay {
-      opacity: 1;
-      background: rgba(0,0,0,0.35);
-    }
-
-    .card-body {
-      padding: 1.4rem;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-
-    .card-tag {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-    }
-
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      line-height: 1.35;
-      margin-bottom: 0.6rem;
-    }
-
-    .card-text {
-      color: #515154;
-      font-size: 0.925rem;
-      line-height: 1.5;
-      flex: 1;
-      margin-bottom: 1rem;
-    }
-
-    .card-footer {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      border-top: 1px solid var(--border);
-      padding-top: 0.75rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    /* Modales (Auth / Publish / Video Lightbox) */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .modal-backdrop.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .apple-modal {
-      background: var(--card-bg);
-      width: 100%;
-      max-width: 440px;
-      border-radius: var(--radius-lg);
-      padding: 2.2rem;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-      position: relative;
-    }
-
-    .modal-tabs {
-      display: flex;
-      background: #e8e8ed;
-      padding: 3px;
-      border-radius: 980px;
-      margin-bottom: 1.5rem;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 0.5rem;
-      border: none;
-      background: transparent;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 980px;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-
-    .tab-btn.active {
-      background: white;
-      color: var(--text);
-    }
-
-    .input-field {
-      margin-bottom: 1.1rem;
-    }
-
-    .input-field label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 0.35rem;
-    }
-
-    .apple-input {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #fbfbfd;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    .close-modal-btn {
-      position: absolute;
-      top: 1.25rem;
-      right: 1.25rem;
-      background: #e8e8ed;
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    /* Video Player Lightbox */
-    .video-modal-content {
-      width: 100%;
-      max-width: 800px;
-      aspect-ratio: 16/9;
-      background: #000;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .video-modal-content iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
+        @media (max-width: 768px) {
+            h1 { font-size: 40px; }
+            h2 { font-size: 20px; }
+            .grid-container { grid-template-columns: 1fr; }
+            .grid-item { min-height: 450px; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Bandeau Noir Effet Verre -->
-  <header class="glass-header">
-    <div class="header-container">
-      <a href="#" class="brand-logo" onclick="resetFilter()">
-        <svg viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="46" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" font-weight="800" font-size="48" fill="#ffffff" letter-spacing="-1">Nuws</text>
-          <path d="M142 16 C142 22 146 25 152 25 C146 25 142 28 142 34 C142 28 138 25 132 25 C138 25 142 22 142 16 Z" fill="#ffffff"/>
-        </svg>
-      </a>
+    <nav>
+        <a href="#">The.Nuws</a>
+        <a href="#">Reportages</a>
+        <a href="#">Interviews</a>
+        <a href="#">Podcasts</a>
+        <a href="#">Soutenir</a>
+    </nav>
 
-      <div class="nav-actions" id="nav-user-slot">
-        <!-- Bouton Connexion / Profil injecté en JS -->
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- Carrousel Hero Apple TV -->
-    <section class="hero-carousel-section">
-      <div class="carousel-track" id="carousel-track"></div>
-      <div class="carousel-dots" id="carousel-dots"></div>
+    <!-- Section Hero (Inspirée de "Les études, simplifiées") -->
+    <section>
+        <h1>L'information, simplifiée.</h1>
+        <h2>L'essentiel de l'actu avec The.Nuws.official.</h2>
+        <div class="cta-container">
+            <a href="#" class="btn-primary">S'abonner</a>
+        </div>
+        <div class="media-placeholder">
+            [Insérer l'image des présentateurs détourés ici]
+        </div>
     </section>
 
-    <!-- Recherche Intelligente avec Tolérance aux fautes -->
-    <section class="search-section">
-      <div class="smart-search-wrapper">
-        <i data-lucide="search" size="20"></i>
-        <input type="text" id="smart-search" class="smart-search-input" placeholder="Rechercher un sujet, un lieu ou une vidéo..." autocomplete="off">
-      </div>
+    <!-- Section Principale 2 (Inspirée de "iPhone") -->
+    <section>
+        <h1>Nuws Premium</h1>
+        <h2>Découvrez la toute dernière façon de s'informer.</h2>
+        <div class="cta-container">
+            <a href="#" class="btn-link">En savoir plus &gt;</a>
+            <a href="#" class="btn-primary">Acheter un accès</a>
+        </div>
+        <div class="media-placeholder" style="height: 400px; background: #e5e5ea;">
+            [Insérer les mockups d'appareils ici]
+        </div>
     </section>
 
-    <!-- Filtres par Catégories -->
-    <div class="categories-bar" id="categories-bar">
-      <button class="cat-pill active" onclick="filterCategory('all', this)">Tous</button>
-      <button class="cat-pill" onclick="filterCategory('USA', this)">🇺🇸 Etats-Unis</button>
-      <button class="cat-pill" onclick="filterCategory('France', this)">🇫🇷 France</button>
-      <button class="cat-pill" onclick="filterCategory('YouTube', this)">🔴 Vidéos YouTube</button>
-      <button class="cat-pill" onclick="filterCategory('Tech', this)">⚡ Tech & Média</button>
+    <!-- Section Grille (Inspirée des sections iPad / Watch) -->
+    <div class="grid-container">
+        <div class="grid-item">
+            <h3>Vidéos Exclusives</h3>
+            <p>Maintenant boostées par notre nouvelle ligne édito.</p>
+            <div class="cta-container">
+                <a href="#" class="btn-link">En savoir plus &gt;</a>
+                <a href="#" class="btn-primary">Regarder</a>
+            </div>
+            <div class="media-placeholder"></div>
+        </div>
+
+        <div class="grid-item" style="background-color: #000; color: #fff;">
+            <h3 style="color: #fff;">Podcast</h3>
+            <p>Des détails qui font toute la différence.</p>
+            <div class="cta-container">
+                <a href="#" class="btn-link" style="color: #2997ff;">En savoir plus &gt;</a>
+                <a href="#" class="btn-primary" style="background-color: #fff; color: #000;">Écouter</a>
+            </div>
+            <div class="media-placeholder" style="background: #1d1d1f;"></div>
+        </div>
     </div>
 
-    <!-- Grille de publications -->
-    <div class="section-header">
-      <h2>Dernières publications</h2>
-    </div>
+    <footer>
+        <p>Certains reportages nécessitent un abonnement ou peuvent être soumis à des conditions particulières.</p>
+        <p>&copy; 2026 The.Nuws.official. Plateforme pensée et codée par Pommi. Propulsé par Swift IA Boost.</p>
+    </footer>
 
-    <section class="content-grid" id="main-grid"></section>
-  </main>
-
-  <!-- Modal Auth (Connexion / Inscription) -->
-  <div class="modal-backdrop" id="auth-modal">
-    <div class="apple-modal">
-      <button class="close-modal-btn" onclick="closeModal('auth-modal')"><i data-lucide="x" size="16"></i></button>
-      
-      <div class="modal-tabs">
-        <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">Connexion</button>
-        <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">Créer un compte</button>
-      </div>
-
-      <form id="form-login" onsubmit="handleLogin(event)">
-        <div class="input-field">
-          <label>Adresse e-mail</label>
-          <input type="email" id="login-email" class="apple-input" placeholder="nom@exemple.com" required>
-        </div>
-        <div class="input-field">
-          <label>Mot de passe</label>
-          <input type="password" class="apple-input" placeholder="••••••••" required>
-        </div>
-        <button type="submit" class="btn-apple" style="width:100%; justify-content:center; background:var(--primary); color:white; padding:0.8rem; margin-top:0.5rem;">
-          Se connecter
-        </button>
-      </form>
-
-      <form id="form-register" style="display:none;" onsubmit="handleRegister(event)">
-        <div class="input-field">
-          <label>Nom complet</label>
-          <input type="text" id="reg-name" class="apple-input" placeholder="Timéo" required>
-        </div>
-        <div class="input-field">
-          <label>Adresse e-mail</label>
-          <input type="email" id="reg-email" class="apple-input" placeholder="nom@exemple.com" required>
-        </div>
-        <div class="input-field">
-          <label>Mot de passe</label>
-          <input type="password" class="apple-input" placeholder="••••••••" required>
-        </div>
-        <button type="submit" class="btn-apple" style="width:100%; justify-content:center; background:var(--primary); color:white; padding:0.8rem; margin-top:0.5rem;">
-          Créer mon compte
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Modal de Publication (Visible quand connecté) -->
-  <div class="modal-backdrop" id="publish-modal">
-    <div class="apple-modal">
-      <button class="close-modal-btn" onclick="closeModal('publish-modal')"><i data-lucide="x" size="16"></i></button>
-      <h3 style="font-size:1.3rem; font-weight:700; margin-bottom:1.2rem;">Publier sur Nuws</h3>
-      <form onsubmit="handlePublish(event)">
-        <div class="input-field">
-          <label>Titre de la publication</label>
-          <input type="text" id="pub-title" class="apple-input" placeholder="Titre percutant..." required>
-        </div>
-        <div class="input-field">
-          <label>Catégorie</label>
-          <select id="pub-cat" class="apple-input">
-            <option value="USA">🇺🇸 États-Unis</option>
-            <option value="France">🇫🇷 France</option>
-            <option value="YouTube">🔴 Vidéo YouTube</option>
-            <option value="Tech">⚡ Tech & Média</option>
-          </select>
-        </div>
-        <div class="input-field">
-          <label>ID de la vidéo YouTube (optionnel)</label>
-          <input type="text" id="pub-yt-id" class="apple-input" placeholder="Ex: dQw4w9WgXcQ">
-        </div>
-        <div class="input-field">
-          <label>URL de l'image de couverture</label>
-          <input type="url" id="pub-img" class="apple-input" placeholder="https://images.unsplash.com/..." required>
-        </div>
-        <div class="input-field">
-          <label>Résumé / Contenu</label>
-          <textarea id="pub-desc" class="apple-input" rows="3" style="resize:none;" placeholder="Description..." required></textarea>
-        </div>
-        <button type="submit" class="btn-apple" style="width:100%; justify-content:center; background:var(--primary); color:white; padding:0.8rem;">
-          Publier en direct
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Lightbox Lecteur Vidéo YouTube -->
-  <div class="modal-backdrop" id="video-modal">
-    <div class="video-modal-content">
-      <button class="close-modal-btn" style="z-index:10; top:10px; right:10px;" onclick="closeModal('video-modal')"><i data-lucide="x" size="16"></i></button>
-      <iframe id="youtube-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
-  </div>
-
-  <script>
-    lucide.createIcons();
-
-    // Base de données par défaut de Nuws
-    let defaultArticles = [
-      {
-        id: "yt-1",
-        type: "youtube",
-        ytId: "dQw4w9WgXcQ",
-        title: "Les NUWS aux STATES : Premier Épisode",
-        category: "USA",
-        date: "8 août 2026",
-        description: "Analyse complète des actualités nationales et internationales à travers les États-Unis.",
-        image: "https://images.unsplash.com/photo-1508433957232-3107f5fd5995?auto=format&fit=crop&w=1200&q=80",
-        featured: true
-      },
-      {
-        id: "news-1",
-        type: "article",
-        title: "Lancement de la plateforme média Nuws",
-        category: "Tech",
-        date: "8 août 2026",
-        description: "Nuws est maintenant officiellement déployé avec son interface fluide et son système d'information dynamique.",
-        image: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=1200&q=80",
-        featured: true
-      },
-      {
-        id: "news-2",
-        type: "article",
-        title: "Flash France : Décryptage de la journée",
-        category: "France",
-        date: "7 août 2026",
-        description: "Le point sur les actualités politiques, économiques et sociétales en France.",
-        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
-        featured: false
-      },
-      {
-        id: "yt-2",
-        type: "youtube",
-        ytId: "dQw4w9WgXcQ",
-        title: "Shorts Nuws : Les tendances du moment",
-        category: "YouTube",
-        date: "6 août 2026",
-        description: "Résumé condensé en 60 secondes des faits marquants de la semaine.",
-        image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-        featured: false
-      }
-    ];
-
-    // Chargement depuis LocalStorage pour conserver les articles créés
-    function getArticles() {
-      const stored = localStorage.getItem('nuws_articles');
-      return stored ? JSON.parse(stored) : defaultArticles;
-    }
-
-    let currentCategory = 'all';
-
-    // Carousel Apple TV
-    const featuredItems = getArticles().filter(item => item.featured);
-    const track = document.getElementById('carousel-track');
-    const dotsContainer = document.getElementById('carousel-dots');
-    let currentSlide = 0;
-
-    function renderCarousel() {
-      track.innerHTML = featuredItems.map(item => `
-        <div class="carousel-slide" style="background-image: url('${item.image}');">
-          <div class="slide-overlay"></div>
-          <div class="slide-content">
-            <span class="slide-badge ${item.type === 'youtube' ? 'youtube' : ''}">
-              <i data-lucide="${item.type === 'youtube' ? 'play-circle' : 'newspaper'}" size="14"></i>
-              ${item.ca
+</body>
+</html>
