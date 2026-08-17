@@ -27,7 +27,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
+            z-index: 999;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
@@ -39,6 +39,7 @@
             font-weight: 400;
             letter-spacing: -0.01em;
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         nav a:hover {
@@ -84,10 +85,13 @@
             background-color: #0071e3;
             color: #ffffff;
             padding: 10px 20px;
-            border-radius: 980px; /* Effet pilule */
+            border-radius: 980px;
             text-decoration: none;
             font-size: 15px;
             font-weight: 400;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
         .btn-primary:hover {
@@ -99,6 +103,7 @@
             text-decoration: none;
             font-size: 17px;
             font-weight: 400;
+            cursor: pointer;
         }
 
         .btn-link:hover {
@@ -119,7 +124,7 @@
             color: #86868b;
         }
 
-        /* Grille de contenu (façon iPad/Watch) */
+        /* Grille de contenu */
         .grid-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -157,6 +162,140 @@
             margin-bottom: 30px;
         }
 
+        /* ======================================= */
+        /*    FENÊTRE MODALE DE CONNEXION (GLASS)   */
+        /* ======================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: saturate(180%) blur(30px);
+            -webkit-backdrop-filter: saturate(180%) blur(30px);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            text-align: center;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .login-card {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #86868b;
+            cursor: pointer;
+        }
+
+        .login-card h2 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            font-size: 14px;
+            color: #6e6e73;
+            margin-bottom: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #6e6e73;
+            margin-bottom: 6px;
+            margin-left: 4px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #0071e3;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+            background: #ffffff;
+        }
+
+        .login-submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .login-submit-btn:hover {
+            background-color: #0077ed;
+        }
+
+        .login-footer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #0066cc;
+        }
+
+        .login-footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
         /* Footer */
         footer {
             background-color: #f5f5f7;
@@ -171,6 +310,7 @@
             h2 { font-size: 20px; }
             .grid-container { grid-template-columns: 1fr; }
             .grid-item { min-height: 450px; }
+            .login-card { margin: 0 16px; }
         }
     </style>
 </head>
@@ -182,41 +322,42 @@
         <a href="#">Interviews</a>
         <a href="#">Podcasts</a>
         <a href="#">Soutenir</a>
+        <a onclick="openLoginModal()" style="font-weight: 600; color: #0071e3;">Se connecter</a>
     </nav>
 
-    <!-- Section Hero (Inspirée de "Les études, simplifiées") -->
+    <!-- Section Hero -->
     <section>
         <h1>L'information, simplifiée.</h1>
         <h2>L'essentiel de l'actu avec The.Nuws.official.</h2>
         <div class="cta-container">
-            <a href="#" class="btn-primary">S'abonner</a>
+            <button class="btn-primary" onclick="openLoginModal()">S'abonner</button>
         </div>
         <div class="media-placeholder">
             [Insérer l'image des présentateurs détourés ici]
         </div>
     </section>
 
-    <!-- Section Principale 2 (Inspirée de "iPhone") -->
+    <!-- Section Principale 2 -->
     <section>
         <h1>Nuws Premium</h1>
         <h2>Découvrez la toute dernière façon de s'informer.</h2>
         <div class="cta-container">
             <a href="#" class="btn-link">En savoir plus &gt;</a>
-            <a href="#" class="btn-primary">Acheter un accès</a>
+            <button class="btn-primary" onclick="openLoginModal()">Connexion / Espace Membre</button>
         </div>
         <div class="media-placeholder" style="height: 400px; background: #e5e5ea;">
             [Insérer les mockups d'appareils ici]
         </div>
     </section>
 
-    <!-- Section Grille (Inspirée des sections iPad / Watch) -->
+    <!-- Section Grille -->
     <div class="grid-container">
         <div class="grid-item">
             <h3>Vidéos Exclusives</h3>
             <p>Maintenant boostées par notre nouvelle ligne édito.</p>
             <div class="cta-container">
                 <a href="#" class="btn-link">En savoir plus &gt;</a>
-                <a href="#" class="btn-primary">Regarder</a>
+                <button class="btn-primary">Regarder</button>
             </div>
             <div class="media-placeholder"></div>
         </div>
@@ -226,9 +367,35 @@
             <p>Des détails qui font toute la différence.</p>
             <div class="cta-container">
                 <a href="#" class="btn-link" style="color: #2997ff;">En savoir plus &gt;</a>
-                <a href="#" class="btn-primary" style="background-color: #fff; color: #000;">Écouter</a>
+                <button class="btn-primary" style="background-color: #fff; color: #000;">Écouter</button>
             </div>
             <div class="media-placeholder" style="background: #1d1d1f;"></div>
+        </div>
+    </div>
+
+    <!-- Fenêtre Modale de Connexion -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-card">
+            <button class="close-btn" onclick="closeLoginModal()">&times;</button>
+            <h2>Connexion</h2>
+            <p>Accédez à votre compte The.Nuws</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Connexion réussie !'); closeLoginModal();">
+                <div class="input-group">
+                    <label for="email">Identifiant ou Email</label>
+                    <input type="email" id="email" placeholder="nom@exemple.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="login-submit-btn">Se connecter</button>
+            </form>
+
+            <div class="login-footer">
+                <p><a href="#">Mot de passe oublié ?</a></p>
+                <p style="margin-top: 8px; color: #6e6e73;">Pas encore de compte ? <a href="#">S'inscrire</a></p>
+            </div>
         </div>
     </div>
 
@@ -236,6 +403,24 @@
         <p>Certains reportages nécessitent un abonnement ou peuvent être soumis à des conditions particulières.</p>
         <p>&copy; 2026 The.Nuws.official. Plateforme pensée et codée par Pommi. Propulsé par Swift IA Boost.</p>
     </footer>
+
+    <script>
+        function openLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        // Fermer la fenêtre si on clique à l'extérieur de la carte
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginModal');
+            if (event.target === modal) {
+                closeLoginModal();
+            }
+        }
+    </script>
 
 </body>
 </html>
