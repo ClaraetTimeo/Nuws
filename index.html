@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The.Nuws.official - L'information, simplifiée</title>
+    <title>The.Nuws.official - Bienvenue</title>
     <style>
         /* Réinitialisation et typographie de base */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -13,7 +17,101 @@
             background-color: #f5f5f7;
             color: #1d1d1f;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
+
+        /* ======================================= */
+        /*   ECRAN DE BIENVENUE / ONBOARDING      */
+        /* ======================================= */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px 20px;
+            z-index: 20000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0, 113, 227, 0.1);
+            color: #0071e3;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: 52px;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin: 0 0 16px 0;
+            color: #1d1d1f;
+        }
+
+        .welcome-subtitle {
+            font-size: 20px;
+            color: #6e6e73;
+            max-width: 540px;
+            margin: 0 0 40px 0;
+            line-height: 1.4;
+            font-weight: 400;
+        }
+
+        .welcome-btn {
+            background-color: #0071e3;
+            color: #ffffff;
+            padding: 16px 48px;
+            border-radius: 980px;
+            font-size: 17px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 113, 227, 0.3);
+        }
+
+        .welcome-btn:hover {
+            background-color: #0077ed;
+            transform: scale(1.02);
+        }
+
+        .terms-notice {
+            margin-top: 24px;
+            font-size: 12px;
+            color: #86868b;
+            max-width: 480px;
+            line-height: 1.5;
+        }
+
+        .terms-notice a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .terms-notice a:hover {
+            text-decoration: underline;
+        }
+
+        /* ======================================= */
+        /*             INTERFACE SITE              */
+        /* ======================================= */
 
         /* Barre de navigation avec effet Glassmorphism */
         nav {
@@ -306,6 +404,8 @@
         }
 
         @media (max-width: 768px) {
+            .welcome-title { font-size: 36px; }
+            .welcome-subtitle { font-size: 17px; }
             h1 { font-size: 40px; }
             h2 { font-size: 20px; }
             .grid-container { grid-template-columns: 1fr; }
@@ -316,6 +416,25 @@
 </head>
 <body>
 
+    <!-- 1. PAGE / ÉCRAN DE BIENVENUE -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <span class="welcome-badge">The.Nuws.official</span>
+        <h1 class="welcome-title">Bienvenue sur Nuws !</h1>
+        <p class="welcome-subtitle">
+            Une expérience d'information moderne, claire et conçue pour vous apporter l'essentiel en toute transparence.
+        </p>
+        
+        <button class="welcome-btn" onclick="acceptAndContinue()">Continuer</button>
+        
+        <p class="terms-notice">
+            En cliquant sur <strong>Continuer</strong>, vous acceptez nos 
+            <a href="#">Conditions Générales d'Utilisation</a>, notre 
+            <a href="#">Politique de Confidentialité</a> et notre 
+            <a href="#">Fonctionnement de l'Algorithme</a>.
+        </p>
+    </div>
+
+    <!-- 2. SITE PRINCIPAL -->
     <nav>
         <a href="#">The.Nuws</a>
         <a href="#">Reportages</a>
@@ -373,7 +492,7 @@
         </div>
     </div>
 
-    <!-- Fenêtre Modale de Connexion -->
+    <!-- 3. FENÊTRE MODALE DE CONNEXION -->
     <div class="modal-overlay" id="loginModal">
         <div class="login-card">
             <button class="close-btn" onclick="closeLoginModal()">&times;</button>
@@ -404,7 +523,26 @@
         <p>&copy; 2026 The.Nuws.official. Plateforme pensée et codée par Pommi. Propulsé par Swift IA Boost.</p>
     </footer>
 
+    <!-- LOGIQUE JAVASCRIPT -->
     <script>
+        // Fonction déclenchée lors du clic sur "Continuer"
+        function acceptAndContinue() {
+            // Masquer l'écran de bienvenue avec transition fluide
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            
+            // Enregistrer l'acceptation dans le navigateur pour ne pas redemander à chaque rafraîchissement
+            localStorage.setItem('nuws_terms_accepted', 'true');
+        }
+
+        // Vérification au chargement si l'utilisateur a déjà accepté
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('nuws_terms_accepted') === 'true') {
+                const welcomeScreen = document.getElementById('welcomeScreen');
+                welcomeScreen.style.display = 'none'; // Masquer immédiatement sans transition
+            }
+        });
+
+        // Gestion de la modale de connexion
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('active');
         }
@@ -413,7 +551,7 @@
             document.getElementById('loginModal').classList.remove('active');
         }
 
-        // Fermer la fenêtre si on clique à l'extérieur de la carte
+        // Fermer la modale en cliquant en dehors
         window.onclick = function(event) {
             const modal = document.getElementById('loginModal');
             if (event.target === modal) {
